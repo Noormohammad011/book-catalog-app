@@ -37,6 +37,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ILogin>({
     resolver: zodResolver(loginSchema),
@@ -50,11 +51,20 @@ const Login = () => {
   useEffect(() => {
     if (email) {
       navigate(state?.from ? state.from : '/', { replace: true });
-      toast.success('Login Success');
+      toast.success('Login Success', {
+        autoClose: 2000,
+        toastId: Math.random(),
+      });
     }
     if (isError) {
-      toast.error('Login Failed');
+      toast.error('Login Failed', {
+        autoClose: 2000,
+        toastId: Math.random(),
+      });
     }
+    return () => {
+      reset();
+    };
   }, [email, navigate, isError]);
 
   return (

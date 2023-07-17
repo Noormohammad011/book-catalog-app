@@ -60,10 +60,16 @@ const Signup = () => {
     navigate('/login');
   };
   if (isSuccess) {
-    toast.success(data?.message);
+    toast.success(data?.message, {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
   }
   if (isError) {
-    toast.error('invalid credentials');
+    toast.error('invalid credentials', {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
   }
 
   return (
