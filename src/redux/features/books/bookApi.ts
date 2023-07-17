@@ -21,16 +21,17 @@ export const bookApi = apiSlice.injectEndpoints({
           ...params,
           limit: params?.limit || 10,
           page: params?.page || 1,
-          sorrOrder: params?.sortOrder || 'desc',
+          sortOrder: params?.sortOrder || 'desc', // Fixed typo here
         },
       }),
 
       providesTags: (result) =>
         result
           ? [
-              ...result.data.map(({ id }: { id: string }) => ({
+              ...result.data.map(({ _id }: { _id: string }) => ({
+                // Use _id instead of id
                 type: 'Book',
-                id,
+                id: _id,
               })),
               { type: 'Book', id: 'LIST' },
             ]
@@ -40,7 +41,7 @@ export const bookApi = apiSlice.injectEndpoints({
     getBookById: builder.query({
       query: (id: string) => `/book/${id}`,
       providesTags: (result) =>
-        result ? [{ type: 'Book', id: result.data.id }] : [],
+        result ? [{ type: 'Book', id: result.data._id }] : [],
     }),
 
     createBook: builder.mutation({
@@ -68,7 +69,7 @@ export const bookApi = apiSlice.injectEndpoints({
       invalidatesTags: (result) => {
         if (result) {
           // If the mutation is successful, invalidate the cache for the updated book
-          return [{ type: 'Book', id: result.id }];
+          return [{ type: 'Book', id: result.data._id }];
         }
         return [];
       },
@@ -83,7 +84,7 @@ export const bookApi = apiSlice.injectEndpoints({
         },
       }),
       invalidatesTags: (error, id) => {
-        if (!error) {
+        if (!error && id) {
           const bookId = id?.toString();
           if (bookId) {
             return [{ type: 'Book', id: bookId }];
