@@ -1,12 +1,11 @@
-import { Link } from 'react-router-dom';
-import logo from '../assets/lgoo.png';
-import { string, TypeOf } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
-import { useRegisterUserMutation } from '../redux/features/auth/authApi';
-import { IUser } from '../redux/features/api/type';
+import { useForm } from 'react-hook-form';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { string, TypeOf, z, ZodType } from 'zod';
+import logo from '../assets/lgoo.png';
+import { IUser } from '../redux/features/api/type';
+import { useRegisterUserMutation } from '../redux/features/auth/authApi';
 
 const registerSchema: ZodType<IUser> = z
   .object({

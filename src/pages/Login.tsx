@@ -1,14 +1,13 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import logo from '../assets/lgoo.png';
-import { string, TypeOf } from 'zod';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z, ZodType } from 'zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { TypeOf, ZodType, string, z } from 'zod';
+import logo from '../assets/lgoo.png';
+import { useAppSelector } from '../redux/app/hooks';
 import { ILogin } from '../redux/features/api/type';
 import { useLoginUserMutation } from '../redux/features/auth/authApi';
-import { useAppSelector } from '../redux/app/hooks';
-import { toast } from 'react-toastify';
 
 const loginSchema: ZodType<ILogin> = z.object({
   email: string()
@@ -25,8 +24,8 @@ const loginSchema: ZodType<ILogin> = z.object({
     .min(5, {
       message: 'Password must be at least 5 characters',
     })
-    .max(32, {
-      message: 'Password must be less than 32 characters',
+    .max(16, {
+      message: 'Password must be less than 16 characters',
     }),
 });
 

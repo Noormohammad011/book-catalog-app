@@ -4,11 +4,11 @@ import Hero from '../components/screen/Hero';
 import TopBooks from '../components/screen/TopBooks';
 import TrendyBooks from '../components/screen/TrendyBooks';
 
-
 const Home = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   return (
     <>
       <Helmet>

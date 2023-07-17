@@ -1,7 +1,10 @@
+import { useGetAllBooksQuery } from '../../redux/features/books/bookApi';
+import { IBook } from '../../types/globalTypes';
 import BookCard from '../shared/BookCard';
 import Container from '../ui/Container';
 
 const TopBooks = () => {
+  const { data: books, isLoading } = useGetAllBooksQuery({});
   return (
     <div className="mt-16">
       <section className="pt-20 pb-10 lg:pb-20 h-full bg-[#F3F4F6]">
@@ -13,18 +16,25 @@ const TopBooks = () => {
           </p>
         </div>
         <Container>
-          <div className="container grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-12 lg:mt-12">
-            {Array.from({ length: 10 }).map((_) => (
-              <BookCard
-                image="https://i.ibb.co/r2zns1m/image-01.jpg"
-                BookTitle="5 Habits"
-                BookGenre="Genre"
-                BookPublicationDate="15/07/2023"
-                titleHref="/"
-                BookAuthor="Author"
-              />
-            ))}
-          </div>
+          {isLoading ? (
+            'Loading'
+          ) : (
+            <div className="container grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-12 lg:mt-12">
+              {books.data.map(
+                ({ _id, title, genre, publicationDate, author }: IBook) => (
+                  <BookCard
+                    key={_id}
+                    image="https://i.ibb.co/r2zns1m/image-01.jpg"
+                    BookTitle={title}
+                    BookGenre={genre}
+                    BookPublicationDate={publicationDate}
+                    titleHref={`book/${_id}`}
+                    BookAuthor={author}
+                  />
+                )
+              )}
+            </div>
+          )}
         </Container>
       </section>
     </div>

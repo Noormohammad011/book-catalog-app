@@ -1,9 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../layouts';
 import Home from '../pages/App';
+import BookDetails from '../pages/BookDetails';
+import Books from '../pages/Books';
 import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
+// import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -27,18 +30,16 @@ const router = createBrowserRouter([
         path: '/signup',
         element: <Signup />,
       },
-      /*  {
-        path: '/contact',
-        element: <Contact />,
+      {
+        path: '/allbooks',
+        element: <Books />,
       },
       {
-        path: '/about',
-        element: <About />,
+        path: '/book/:id',
+        element: (
+            <BookDetails />
+        ),
       },
-      {
-        path: '/service',
-        element: <Services />,
-      }, */
     ],
   },
 ]);

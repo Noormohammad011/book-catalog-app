@@ -138,7 +138,7 @@ const authApi = apiSlice.injectEndpoints({
       invalidatesTags: [
         { type: 'Book', id: 'ALL' },
         { type: 'User', id: 'ALL' },
-      ]
+      ],
     }),
   }),
 });
