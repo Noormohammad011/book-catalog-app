@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
 import { userLoggedOut } from '../auth/authSlice';
+import Cookies from 'js-cookie'; // Import js-cookie library
 
 const baseUrl = `http://localhost:5000/api/v1/`;
 
@@ -15,6 +16,12 @@ const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
   baseUrl,
 });
+
+// Define the type for the server response
+interface RefreshResponse {
+  accessToken: string;
+  // Add other properties if present in the actual response
+}
 
 const customFetchBase: BaseQueryFn<
   string | FetchArgs,
@@ -39,7 +46,19 @@ const customFetchBase: BaseQueryFn<
             extraOptions
           );
 
-          if (refreshResult.data) {
+          // Use the RefreshResponse type for refreshResult.data
+          if (
+            refreshResult.data &&
+            (refreshResult.data as RefreshResponse).accessToken
+          ) {
+            // Save the refreshed accessToken to the cookie
+            Cookies.set(
+              'accessToken',
+              (refreshResult.data as RefreshResponse).accessToken,
+              {
+                expires: 7,
+              }
+            );
             // Retry the initial query
             result = await baseQuery(args, api, extraOptions);
           } else {

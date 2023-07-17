@@ -52,6 +52,7 @@ const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+  
   }),
 });
 
