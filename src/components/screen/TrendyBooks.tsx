@@ -1,14 +1,19 @@
 import { Link } from 'react-router-dom';
 import Container from '../ui/Container';
+import { useGetAllBooksQuery } from '../../redux/features/books/bookApi';
 
 const TrendyBooks = () => {
+  const { data, isLoading, isError } = useGetAllBooksQuery({});
+
   return (
     <div>
       <div className="text-zinc-800 text-sm pb-10 text-center overflow-hidden">
         <h2 className="text-4xl font-semibold mb-3">Trendy Collections</h2>
 
         <p className="text-zinc-600 mb-3 lg:mx-96">
-          Contrary to popular belief, Lorem Ipsum is not simply random.
+          {
+            JSON.stringify(data)
+          }
         </p>
       </div>
       <Container>

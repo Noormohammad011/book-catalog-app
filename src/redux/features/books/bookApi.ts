@@ -6,23 +6,22 @@ const accessToken = Cookies.get('accessToken');
 export const bookApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getAllBooks: builder.query({
-      query: ({
-        page = 1,
-        limit = 10,
-        genre,
-        fromDate,
-        toDate,
-        searchTerm,
+      query: (params?: {
+        page?: number;
+        limit?: number;
+        genre?: string;
+        fromDate?: string;
+        toDate?: string;
+        searchTerm?: string;
+        sortOrder?: string;
       }) => ({
         url: `/book`,
         method: 'GET',
         params: {
-          page,
-          limit,
-          genre,
-          fromDate,
-          toDate,
-          searchTerm,
+          ...params,
+          limit: params?.limit || 10,
+          page: params?.page || 1,
+          sorrOrder: params?.sortOrder || 'desc',
         },
       }),
 
@@ -85,7 +84,7 @@ export const bookApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: (error, id) => {
         if (!error) {
-          const bookId = id?.toString(); 
+          const bookId = id?.toString();
           if (bookId) {
             return [{ type: 'Book', id: bookId }];
           }
