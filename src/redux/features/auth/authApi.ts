@@ -52,8 +52,104 @@ const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
-  
+    userProfile: builder.query<IUserResponse, void>({
+      query: () => ({
+        url: 'auth/me',
+        method: 'GET',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+      }),
+      providesTags: ['User'],
+    }),
+    createWishList: builder.mutation({
+      query: (bookId: string) => ({
+        url: `auth/wishlist`,
+        method: 'POST',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+        body: bookId,
+      }),
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
+    }),
+    deleteWishList: builder.mutation({
+      query: (bookId: string) => ({
+        url: `auth/wishlist/${bookId}`,
+        method: 'DELETE',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+      }),
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
+    }),
+    createReadingList: builder.mutation({
+      query: ({ bookId, status }: { bookId: string; status: string }) => ({
+        url: `auth/readinglist`,
+        method: 'POST',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+        body: {
+          bookId,
+          status,
+        },
+      }),
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
+    }),
+    updateReadingList: builder.mutation({
+      query: ({ bookId, status }: { bookId: string; status: string }) => ({
+        url: `auth/readinglist`,
+        method: 'PATCH',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+        body: {
+          bookId,
+          status,
+        },
+      }),
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
+    }),
+    createReview: builder.mutation({
+      query: ({ bookId, comment }: { bookId: string; comment: string }) => ({
+        url: `auth/review`,
+        method: 'POST',
+        headers: {
+          Authorization: Cookies.get('accessToken'),
+        },
+        body: {
+          bookId,
+          comment,
+        },
+      }),
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ]
+    }),
   }),
 });
 
-export const { useRegisterUserMutation, useLoginUserMutation } = authApi;
+export const {
+  useRegisterUserMutation,
+  useLoginUserMutation,
+  useUserProfileQuery,
+  useCreateWishListMutation,
+  useDeleteWishListMutation,
+  useCreateReadingListMutation,
+  useUpdateReadingListMutation,
+  useCreateReviewMutation,
+} = authApi;
