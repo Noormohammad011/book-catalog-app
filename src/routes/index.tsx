@@ -6,7 +6,7 @@ import Books from '../pages/Books';
 import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
-// import PrivateRoute from './PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 
 const router = createBrowserRouter([
   {
@@ -37,7 +37,9 @@ const router = createBrowserRouter([
       {
         path: '/book/:id',
         element: (
+          <PrivateRoute>
             <BookDetails />
+          </PrivateRoute>
         ),
       },
     ],

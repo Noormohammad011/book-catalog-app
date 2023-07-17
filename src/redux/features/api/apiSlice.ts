@@ -1,5 +1,5 @@
 // Need to use the React-specific entry point to import createApi
-import { createApi  } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import customFetchBase from './customFetchBase';
 
 export const apiSlice = createApi({
@@ -8,6 +8,3 @@ export const apiSlice = createApi({
   tagTypes: ['Book', 'User'],
   endpoints: () => ({}),
 });
-
-
-

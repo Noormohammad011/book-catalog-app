@@ -1,6 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { string, TypeOf, z, ZodType } from 'zod';
 import logo from '../assets/lgoo.png';
@@ -43,6 +43,7 @@ const registerSchema: ZodType<IUser> = z
 export type RegisterInput = TypeOf<typeof registerSchema>;
 
 const Signup = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -56,6 +57,7 @@ const Signup = () => {
 
   const onSubmit = (data: RegisterInput) => {
     registerUser(data);
+    navigate('/login');
   };
   if (isSuccess) {
     toast.success(data?.message);

@@ -1,9 +1,9 @@
-import { apiSlice } from '../api/apiSlice';
-import { IAuthResponse, IUserResponse } from '../api/type';
 import Cookies from 'js-cookie';
+import jwtDecode from 'jwt-decode';
 import { LoginInput } from '../../../pages/Login';
 import { RegisterInput } from '../../../pages/Signup';
-import jwtDecode from 'jwt-decode';
+import { apiSlice } from '../api/apiSlice';
+import { IAuthResponse, IUserResponse } from '../api/type';
 import { userLoggedIn } from './authSlice';
 
 const authApi = apiSlice.injectEndpoints({
@@ -33,7 +33,7 @@ const authApi = apiSlice.injectEndpoints({
         }
         return response;
       },
-      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+      async onQueryStarted(_arg, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
           const decoded: {

@@ -1,5 +1,5 @@
-import { apiSlice } from '../api/apiSlice';
 import Cookies from 'js-cookie';
+import { apiSlice } from '../api/apiSlice';
 
 const accessToken = Cookies.get('accessToken');
 

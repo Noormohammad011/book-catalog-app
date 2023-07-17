@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import book from '../../assets/books/hero.png';
 import Container from '../ui/Container';
 
 const DetailsBook = () => {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
- 
+  const { id } = useParams();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -115,7 +117,7 @@ const DetailsBook = () => {
                 psychopathic Wall Street investment banker in the 1980s.
               </p>
               <p className="text-base leading-4 mt-7 text-gray-600">
-                {/* Product Code: <span className="uppercase">{id}</span> */}
+                Product Code: <span className="uppercase">{id}</span>
               </p>
               <p className="text-base leading-4 mt-4 text-gray-600">
                 Length: 13.2 inches

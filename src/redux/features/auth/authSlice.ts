@@ -14,18 +14,17 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    userLoggedIn: (state, action: PayloadAction<IUserState>) => { 
+    userLoggedIn: (state, action: PayloadAction<IUserState>) => {
       state.name = action.payload.name;
       state.email = action.payload.email;
     },
-    userLoggedOut: (state) => { 
+    userLoggedOut: (state) => {
       state.name = null;
       state.email = null;
       Cookies.remove('accessToken');
     },
   },
 });
-
 
 export const { userLoggedIn, userLoggedOut } = authSlice.actions;
 

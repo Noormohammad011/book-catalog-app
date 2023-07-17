@@ -5,8 +5,8 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
-import { userLoggedOut } from '../auth/authSlice';
 import Cookies from 'js-cookie'; // Import js-cookie library
+import { userLoggedOut } from '../auth/authSlice';
 
 const baseUrl = `http://localhost:5000/api/v1/`;
 
