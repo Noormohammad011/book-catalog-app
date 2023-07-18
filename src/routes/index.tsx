@@ -8,7 +8,8 @@ import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import PrivateRoute from './PrivateRoute';
-import UpdateBook from '../pages/updateBook';
+import UpdateBook from '../pages/UpdateBook';
+
 
 const router = createBrowserRouter([
   {

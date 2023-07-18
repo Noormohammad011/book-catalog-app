@@ -96,7 +96,7 @@ export default function Books() {
                             }
                             value={selectedGenre}
                           >
-                            {({ active, selected }) => (
+                            {({ selected }) => (
                               <>
                                 <span
                                   className={`block truncate ${
@@ -116,7 +116,7 @@ export default function Books() {
                               </>
                             )}
                           </Listbox.Option>
-                          {section.options.map((option, optionIdx) => (
+                          {section.options.map((option) => (
                             <Listbox.Option
                               key={option.value}
                               className={({ active }) =>
@@ -128,7 +128,7 @@ export default function Books() {
                               }
                               value={option.value}
                             >
-                              {({ active, selected }) => (
+                              {({ selected }) => (
                                 <>
                                   <span
                                     className={`block truncate ${
