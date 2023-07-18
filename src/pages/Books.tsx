@@ -1,6 +1,5 @@
-import { Dialog, Disclosure, Transition, Listbox } from '@headlessui/react';
+import { Disclosure, Transition, Listbox } from '@headlessui/react';
 import { MinusIcon, PlusIcon } from '@heroicons/react/20/solid';
-import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useState } from 'react';
 import FilterBooks from '../components/screen/FilterBooks';
 import BookCard from '../components/shared/BookCard';
@@ -40,7 +39,7 @@ export default function Books() {
     ? moment(toDate).format('MM/DD/YYYY')
     : undefined;
 
-  const { data: books, isLoading } = useGetAllBooksQuery({
+  const { data: books } = useGetAllBooksQuery({
     searchTerm,
     fromDate: formattedFromDate,
     toDate: formattedToDate,
