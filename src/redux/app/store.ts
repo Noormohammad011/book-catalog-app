@@ -1,11 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '../features/api/apiSlice';
 import authReducer from '../features/auth/authSlice';
-
-import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 
-const accessToken = Cookies.get('accessToken');
+const accessToken = localStorage.getItem('accessToken');
 const decoded = accessToken
   ? jwtDecode<{ email: string; name: string }>(accessToken)
   : null;

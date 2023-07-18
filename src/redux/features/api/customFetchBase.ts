@@ -5,10 +5,9 @@ import {
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query';
 import { Mutex } from 'async-mutex';
-import Cookies from 'js-cookie'; // Import js-cookie library
 import { userLoggedOut } from '../auth/authSlice';
 
-const baseUrl = `http://localhost:5000/api/v1/`;
+const baseUrl = 'http://localhost:5000/api/v1/';
 
 // Create a new mutex
 const mutex = new Mutex();
@@ -51,13 +50,10 @@ const customFetchBase: BaseQueryFn<
             refreshResult.data &&
             (refreshResult.data as RefreshResponse).accessToken
           ) {
-            // Save the refreshed accessToken to the cookie
-            Cookies.set(
+            // Save the refreshed accessToken to localStorage
+            localStorage.setItem(
               'accessToken',
-              (refreshResult.data as RefreshResponse).accessToken,
-              {
-                expires: 7,
-              }
+              (refreshResult.data as RefreshResponse).accessToken
             );
             // Retry the initial query
             result = await baseQuery(args, api, extraOptions);

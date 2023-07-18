@@ -12,6 +12,16 @@ const DetailsBook = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const handleAddToWishlist = () => {
+    // Add logic to handle adding to wishlist
+    console.log('Added to Wishlist');
+  };
+
+  const handleAddToReadingList = () => {
+    // Add logic to handle adding to reading list
+    console.log('Added to Reading List');
+  };
+
   return (
     <section className="pt-20 pb-10 lg:pb-20 h-full bg-[#F3F4F6]">
       <div className="text-zinc-800 text-sm pb-10 text-center overflow-hidden">
@@ -119,18 +129,22 @@ const DetailsBook = () => {
               <p className="text-base leading-4 mt-7 text-gray-600">
                 Product Code: <span className="uppercase">{id}</span>
               </p>
-              <p className="text-base leading-4 mt-4 text-gray-600">
-                Length: 13.2 inches
-              </p>
-              <p className="text-base leading-4 mt-4 text-gray-600">
-                Height: 10 inches
-              </p>
-              <p className="text-base leading-4 mt-4 text-gray-600">
-                Depth: 5.1 inches
-              </p>
-              <p className="md:w-96 text-base leading-normal text-gray-600 mt-4">
-                Composition: 100% calf leather, inside: 100% lamb leather
-              </p>
+              <div className="flex space-x-4 mt-4">
+                <button
+                  type="button"
+                  onClick={handleAddToWishlist}
+                  className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
+                >
+                  Add to Wishlist
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddToReadingList}
+                  className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
+                >
+                  Add to Reading List
+                </button>
+              </div>
             </div>
             <div>
               <div className="border-t border-b py-4 mt-7 border-gray-200">

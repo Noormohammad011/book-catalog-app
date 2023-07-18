@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import jwtDecode from 'jwt-decode';
 import { LoginInput } from '../../../pages/Login';
 import { RegisterInput } from '../../../pages/Signup';
@@ -27,9 +26,7 @@ const authApi = apiSlice.injectEndpoints({
       },
       transformResponse: (response: IAuthResponse): IAuthResponse => {
         if (response.data) {
-          Cookies.set('accessToken', response?.data?.accessToken, {
-            expires: 7,
-          });
+          localStorage.setItem('accessToken', response?.data?.accessToken);
         }
         return response;
       },
@@ -57,7 +54,7 @@ const authApi = apiSlice.injectEndpoints({
         url: 'auth/me',
         method: 'GET',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
       providesTags: ['User'],
@@ -67,51 +64,51 @@ const authApi = apiSlice.injectEndpoints({
         url: `auth/wishlist`,
         method: 'POST',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
         body: bookId,
       }),
-      invalidatesTags: [
-        { type: 'Book', id: 'ALL' },
-        { type: 'User', id: 'ALL' },
-      ],
+      // invalidatesTags: [
+      //   { type: 'Book', id: 'ALL' },
+      //   { type: 'User', id: 'ALL' },
+      // ],
     }),
     deleteWishList: builder.mutation({
       query: (bookId: string) => ({
         url: `auth/wishlist/${bookId}`,
         method: 'DELETE',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
-      invalidatesTags: [
-        { type: 'Book', id: 'ALL' },
-        { type: 'User', id: 'ALL' },
-      ],
+      // invalidatesTags: [
+      //   { type: 'Book', id: 'ALL' },
+      //   { type: 'User', id: 'ALL' },
+      // ],
     }),
     createReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({
         url: `auth/readinglist`,
         method: 'POST',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
         body: {
           bookId,
           status,
         },
       }),
-      invalidatesTags: [
-        { type: 'Book', id: 'ALL' },
-        { type: 'User', id: 'ALL' },
-      ],
+      // invalidatesTags: [
+      //   { type: 'Book', id: 'ALL' },
+      //   { type: 'User', id: 'ALL' },
+      // ],
     }),
     updateReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({
         url: `auth/readinglist`,
         method: 'PATCH',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
         body: {
           bookId,
@@ -128,17 +125,17 @@ const authApi = apiSlice.injectEndpoints({
         url: `auth/review`,
         method: 'POST',
         headers: {
-          Authorization: Cookies.get('accessToken'),
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
         body: {
           bookId,
           comment,
         },
       }),
-      invalidatesTags: [
-        { type: 'Book', id: 'ALL' },
-        { type: 'User', id: 'ALL' },
-      ],
+      // invalidatesTags: [
+      //   { type: 'Book', id: 'ALL' },
+      //   { type: 'User', id: 'ALL' },
+      // ],
     }),
   }),
 });

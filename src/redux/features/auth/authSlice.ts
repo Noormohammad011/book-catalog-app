@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
+
 interface IUserState {
   name: string | null;
   email: string | null;
@@ -21,7 +21,7 @@ const authSlice = createSlice({
     userLoggedOut: (state) => {
       state.name = null;
       state.email = null;
-      Cookies.remove('accessToken');
+      localStorage.removeItem('accessToken');
     },
   },
 });

@@ -387,15 +387,3 @@ const Signup = () => {
 
 export default Signup;
 
-// const InputBox = ({ type, placeholder, name }: IInputBox) => {
-//   return (
-//     <div className="mb-6">
-//       <input
-//         type={type}
-//         placeholder={placeholder}
-//         name={name}
-//         className="border-[#E9EDF4] w-full rounded-md border bg-[#FCFDFE] py-3 px-5 text-base text-body-color placeholder-[#ACB6BE] outline-none focus:border-indigo-600 focus-visible:shadow-none"
-//       />
-//     </div>
-//   );
-// };

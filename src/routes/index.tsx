@@ -2,7 +2,8 @@ import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../layouts';
 import Home from '../pages/App';
 import BookDetails from '../pages/BookDetails';
-import Books from '../pages/Books';
+import Books from '../pages/Books2';
+import BookForm from '../pages/CreateBook';
 import ErrorPage from '../pages/ErrorPage';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
@@ -36,10 +37,15 @@ const router = createBrowserRouter([
       },
       {
         path: '/book/:id',
+        element: <BookDetails />,
+      },
+      {
+        path: '/createbook',
         element: (
-          <PrivateRoute>
-            <BookDetails />
-          </PrivateRoute>
+          <BookForm />
+          // <PrivateRoute>
+          //   <BookForm />
+          // </PrivateRoute>
         ),
       },
     ],

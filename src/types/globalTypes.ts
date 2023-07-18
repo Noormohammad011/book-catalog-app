@@ -1,7 +1,16 @@
-export interface IBook {
-  _id: string | number;
-  title: string;
-  genre: string;
-  publicationDate: string;
-  author: string;
-}
+export const genreOptions: string[] = [
+  'Fantasy',
+  'Science Fiction',
+  'Horror',
+  'Romance',
+  'Thriller',
+  'Mystery',
+  'Detective',
+  'Dystopian',
+  'Memoir',
+  'Historical Fiction',
+  'Cook Book',
+  'Autobiography',
+  'Biography',
+  'Self Help',
+];

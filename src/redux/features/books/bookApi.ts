@@ -1,7 +1,4 @@
-import Cookies from 'js-cookie';
 import { apiSlice } from '../api/apiSlice';
-
-const accessToken = Cookies.get('accessToken');
 
 export const bookApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -50,10 +47,9 @@ export const bookApi = apiSlice.injectEndpoints({
         method: 'POST',
         body,
         headers: {
-          Authorization: accessToken,
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
-
       invalidatesTags: [{ type: 'Book', id: 'LIST' }],
     }),
 
@@ -63,12 +59,11 @@ export const bookApi = apiSlice.injectEndpoints({
         method: 'PATCH',
         body: patch,
         headers: {
-          Authorization: accessToken,
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: (result) => {
         if (result) {
-          // If the mutation is successful, invalidate the cache for the updated book
           return [{ type: 'Book', id: result.data._id }];
         }
         return [];
@@ -80,7 +75,7 @@ export const bookApi = apiSlice.injectEndpoints({
         url: `/book/${id}`,
         method: 'DELETE',
         headers: {
-          Authorization: accessToken,
+          Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
       invalidatesTags: (error, id) => {
