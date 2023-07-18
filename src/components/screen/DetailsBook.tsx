@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import book from '../../assets/books/hero.png';
 import Container from '../ui/Container';
-
+import { useDeleteBookMutation } from '../../redux/features/books/bookApi';
+import { toast } from 'react-toastify';
 const DetailsBook = () => {
   const [show, setShow] = useState(false);
   const [show2, setShow2] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -21,6 +23,24 @@ const DetailsBook = () => {
     // Add logic to handle adding to reading list
     console.log('Added to Reading List');
   };
+
+  const [deleteBook, { data, isLoading, isSuccess, isError }] =
+    useDeleteBookMutation();
+
+  if (isSuccess) {
+    toast.success(data?.message, {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+    navigate('/allbooks');
+  }
+
+  if (isError) { 
+    toast.error('SomeThing Went Wrong', {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+  }
 
   return (
     <section className="pt-20 pb-10 lg:pb-20 h-full bg-[#F3F4F6]">
@@ -143,6 +163,21 @@ const DetailsBook = () => {
                   className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
                 >
                   Add to Reading List
+                </button>
+                <button
+                  type="button"
+                  onClick={handleAddToReadingList}
+                  className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
+                >
+                  Update Book
+                </button>
+                <button
+                  type="button"
+                  disabled={isLoading || isSuccess}
+                  onClick={() => deleteBook(id)}
+                  className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
+                >
+                  Delete Book
                 </button>
               </div>
             </div>

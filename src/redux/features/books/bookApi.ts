@@ -78,15 +78,7 @@ export const bookApi = apiSlice.injectEndpoints({
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
-      invalidatesTags: (error, id) => {
-        if (!error && id) {
-          const bookId = id?.toString();
-          if (bookId) {
-            return [{ type: 'Book', id: bookId }];
-          }
-        }
-        return [];
-      },
+      invalidatesTags: [{ type: 'Book', id: 'LIST' }],
     }),
   }),
 });
