@@ -7,7 +7,7 @@ import {
 import { Mutex } from 'async-mutex';
 import { userLoggedOut } from '../auth/authSlice';
 
-const baseUrl = 'book-catalog-backend-lac.vercel.app/api/v1/';
+const baseUrl = 'https://book-catalog-backend-lac.vercel.app/api/v1/';
 
 // Create a new mutex
 const mutex = new Mutex();
