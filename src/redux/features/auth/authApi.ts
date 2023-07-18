@@ -68,10 +68,10 @@ const authApi = apiSlice.injectEndpoints({
         },
         body: bookId,
       }),
-      // invalidatesTags: [
-      //   { type: 'Book', id: 'ALL' },
-      //   { type: 'User', id: 'ALL' },
-      // ],
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
     }),
     deleteWishList: builder.mutation({
       query: (bookId: string) => ({
@@ -81,10 +81,10 @@ const authApi = apiSlice.injectEndpoints({
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
       }),
-      // invalidatesTags: [
-      //   { type: 'Book', id: 'ALL' },
-      //   { type: 'User', id: 'ALL' },
-      // ],
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
     }),
     createReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({
@@ -98,10 +98,10 @@ const authApi = apiSlice.injectEndpoints({
           status,
         },
       }),
-      // invalidatesTags: [
-      //   { type: 'Book', id: 'ALL' },
-      //   { type: 'User', id: 'ALL' },
-      // ],
+      invalidatesTags: [
+        { type: 'Book', id: 'ALL' },
+        { type: 'User', id: 'ALL' },
+      ],
     }),
     updateReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({

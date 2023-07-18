@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Container from '../ui/Container';
 import {
@@ -6,29 +6,73 @@ import {
   useGetBookByIdQuery,
 } from '../../redux/features/books/bookApi';
 import { toast } from 'react-toastify';
+import { useCreateReadingListMutation, useCreateWishListMutation } from '../../redux/features/auth/authApi';
 
 const DetailsBook = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const [addedToWishlist, setAddedToWishlist] = useState<string[]>([]);
+  const [submitted, setSubmitted] = useState(false); 
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleAddToWishlist = () => {
-    // Add logic to handle adding to wishlist
-    console.log('Added to Wishlist');
-  };
-
-  const handleAddToReadingList = () => {
-    // Add logic to handle adding to reading list
-    console.log('Added to Reading List');
-  };
-
   const { data: bookData } = useGetBookByIdQuery(id!);
 
+  const [
+    createWishList,
+    {
+      isError: wishlistError,
+      isSuccess: wishlistSuccess,
+      isLoading: wishlistLoading,
+    },
+  ] = useCreateWishListMutation();
+
+   const [
+     createReadingList,
+     {
+       isSuccess: readingListSuccess,
+        isLoading: readingListLoading,
+     },
+   ] = useCreateReadingListMutation();
+
+  // useCreateReadingListMutation;
   const [deleteBook, { data, isLoading, isSuccess, isError }] =
     useDeleteBookMutation();
+
+   const handleAddToWishlist = () => {
+     if (!addedToWishlist.includes(id!) && !submitted) {
+      
+       createWishList(id!);
+       setAddedToWishlist((prev) => [...prev, id!]);
+       setSubmitted(true); 
+     }
+   };
+
+   const handleAddToReadingList = () => {
+     if (!submitted) {
+       
+       createReadingList({
+         bookId: id!,
+         status: 'Currently Reading',
+       });
+       setSubmitted(true); 
+     }
+   };
+  if (wishlistSuccess) {
+    toast.success('Added to Wishlist', {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+  }
+
+  if (wishlistError) {
+    toast.error('Already added this book', {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+  }
 
   if (isSuccess) {
     toast.success(data?.message, {
@@ -80,16 +124,20 @@ const DetailsBook = () => {
               <button
                 type="button"
                 onClick={handleAddToWishlist}
+                disabled={wishlistLoading || wishlistSuccess || submitted}
                 className="w-full px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
               >
-                Add to Wishlist
+                {wishlistSuccess ? 'Added to Wishlist' : 'Add to Wishlist'}
               </button>
               <button
                 type="button"
                 onClick={handleAddToReadingList}
+                disabled={readingListLoading || readingListSuccess || submitted}
                 className="w-full px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
               >
-                Add to Reading List
+                {readingListSuccess
+                  ? 'Added to Reading List'
+                  : 'Add to Reading List'}
               </button>
               <Link
                 to={`/updatebook/${id}`}
