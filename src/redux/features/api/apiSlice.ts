@@ -5,6 +5,6 @@ import customFetchBase from './customFetchBase';
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: customFetchBase,
-  tagTypes: ['Book', 'User'],
+  tagTypes: ['Book', 'User', 'Review'],
   endpoints: () => ({}),
 });

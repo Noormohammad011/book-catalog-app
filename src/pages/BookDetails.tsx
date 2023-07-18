@@ -1,8 +1,10 @@
 import { Helmet } from 'react-helmet';
 import CommentBox from '../components/screen/CommentBox';
 import DetailsBook from '../components/screen/DetailsBook';
+import { useParams } from 'react-router-dom';
 
 const BookDetails = () => {
+  const { id } = useParams<{ id: string }>();
   return (
     <>
       <Helmet>
@@ -13,7 +15,7 @@ const BookDetails = () => {
         <div></div>
         <div>
           <DetailsBook />
-          <CommentBox />
+          <CommentBox bookId={id!} />
         </div>
       </div>
     </>

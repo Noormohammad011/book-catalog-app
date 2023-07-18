@@ -43,5 +43,11 @@ export interface IBook {
   publicationDate: Date | null;
 }
 
+export interface IBookComment {
+  bookId?: string;
+  comment: string;
+}
+
+export interface IBookCommentResponse extends GenericResponse<IBookComment> {}
 
 export interface IBookResponse extends GenericResponse<IBook> {}

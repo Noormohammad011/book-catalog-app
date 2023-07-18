@@ -122,7 +122,7 @@ const authApi = apiSlice.injectEndpoints({
     }),
     createReview: builder.mutation({
       query: ({ bookId, comment }: { bookId: string; comment: string }) => ({
-        url: `auth/review`,
+        url: `/reviews`,
         method: 'POST',
         headers: {
           Authorization: `${localStorage.getItem('accessToken')}`,
@@ -132,10 +132,14 @@ const authApi = apiSlice.injectEndpoints({
           comment,
         },
       }),
-      // invalidatesTags: [
-      //   { type: 'Book', id: 'ALL' },
-      //   { type: 'User', id: 'ALL' },
-      // ],
+      invalidatesTags: ['Review'],
+    }),
+    getReviewsById: builder.query({
+      query: (bookID: string) => ({
+        url: `/reviews/${bookID}`,
+        method: 'GET',
+      }),
+      providesTags: ['Review'],
     }),
   }),
 });
@@ -149,4 +153,5 @@ export const {
   useCreateReadingListMutation,
   useUpdateReadingListMutation,
   useCreateReviewMutation,
+  useGetReviewsByIdQuery,
 } = authApi;

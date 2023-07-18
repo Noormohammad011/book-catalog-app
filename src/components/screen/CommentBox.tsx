@@ -1,86 +1,83 @@
 import React, { useState } from 'react';
 import Container from '../ui/Container';
+import { TypeOf, z, ZodType } from 'zod';
+import { toast } from 'react-toastify';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { IBookComment } from '../../redux/features/api/type';
+import {
+  useCreateReviewMutation,
+  useGetReviewsByIdQuery,
+} from '../../redux/features/auth/authApi';
 
-interface IComment {
-  id: string;
-  content: string;
-  author: string;
-}
+const commentSchema: ZodType<IBookComment> = z.object({
+  comment: z.string().min(3, { message: 'Content is too short' }),
+});
 
-const CommentBox: React.FC = () => {
-  const [comment, setComment] = useState<IComment>({
-    id: '',
-    content: '',
-    author: '',
+export type BookCommentForm = TypeOf<typeof commentSchema>;
+
+const CommentBox: React.FC<{
+  bookId: string;
+}> = ({ bookId }) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<IBookComment>({
+    resolver: zodResolver(commentSchema),
   });
-  const [comments, setComments] = useState<IComment[]>([]);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
-  ) => {
-    const { name, value } = e.target;
-    setComment((prevComment) => ({
-      ...prevComment,
-      [name]: value,
-    }));
+  const [createReview, { data, isLoading, isSuccess, isError }] =
+    useCreateReviewMutation();
+  const {
+    data: reviewsData,
+    isFetching,
+    isLoading: reviewsLoading,
+  } = useGetReviewsByIdQuery(bookId as string);
+  const reviews = reviewsData?.data;
+
+  const onSubmit = (data: BookCommentForm) => {
+    const newData = { ...data, bookId };
+    createReview(newData);
+    reset();
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (comment.content && comment.author) {
-      const newComment: IComment = {
-        id: Date.now().toString(),
-        content: comment.content,
-        author: comment.author,
-      };
-      setComments((prevComments) => [...prevComments, newComment]);
-      setComment({
-        id: '',
-        content: '',
-        author: '',
-      });
-    }
-  };
+  if (isSuccess && !isFetching) {
+    toast.success(data?.message, {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+  }
+  if (isError) {
+    toast.error('Something Went Wrong', {
+      autoClose: 2000,
+      toastId: Math.random(),
+    });
+  }
 
   return (
     <Container>
-      <form onSubmit={handleSubmit} className="mt-16">
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-16">
         <div className="mb-4">
           <label
-            htmlFor="content"
+            htmlFor="comment"
             className="block text-gray-700 font-medium mb-2"
           >
             Comment
           </label>
           <textarea
-            id="content"
-            name="content"
-            value={comment.content}
-            onChange={handleChange}
+            id="comment"
+            {...register('comment')}
             className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-primary"
             rows={4}
             required
           ></textarea>
-        </div>
-        <div className="mb-4">
-          <label
-            htmlFor="author"
-            className="block text-gray-700 font-medium mb-2"
-          >
-            Author
-          </label>
-          <input
-            type="text"
-            id="author"
-            name="author"
-            value={comment.author}
-            onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:border-primary"
-            required
-          />
+          {errors.comment && <p>{errors.comment.message}</p>}
         </div>
         <div className="flex justify-center">
           <button
+            disabled={isLoading || isSuccess}
             type="submit"
             className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
           >
@@ -91,12 +88,16 @@ const CommentBox: React.FC = () => {
 
       <div className="mt-8">
         <h3 className="text-lg font-medium text-gray-700 mb-4">Comments</h3>
-        {comments.length > 0 ? (
+        {reviewsLoading ? (
+          <p className="text-gray-500">Loading reviews...</p>
+        ) : isFetching ? (
+          <p className="text-gray-500">Fetching reviews...</p>
+        ) : Array.isArray(reviews) && reviews.length > 0 ? (
           <ul>
-            {comments.map((comment) => (
-              <li key={comment.id} className="mb-4">
-                <p className="font-medium">{comment.author}</p>
-                <p className="text-gray-700">{comment.content}</p>
+            {reviews.map((review) => (
+              <li key={review._id} className="mb-4">
+                <p className="font-medium">Comment: {review.comment}</p>
+                <p className="font-medium">Author: {review.user.name}</p>
               </li>
             ))}
           </ul>
