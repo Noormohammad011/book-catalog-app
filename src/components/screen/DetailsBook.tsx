@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import book from '../../assets/books/hero.png';
 import Container from '../ui/Container';
 import { useDeleteBookMutation } from '../../redux/features/books/bookApi';
@@ -35,7 +35,7 @@ const DetailsBook = () => {
     navigate('/allbooks');
   }
 
-  if (isError) { 
+  if (isError) {
     toast.error('SomeThing Went Wrong', {
       autoClose: 2000,
       toastId: Math.random(),
@@ -164,13 +164,22 @@ const DetailsBook = () => {
                 >
                   Add to Reading List
                 </button>
-                <button
+                <div>
+                  <Link
+                    type='button'
+                    to={`/updatebook/${id}`}
+                    className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
+                  >
+                    Update Book
+                  </Link>
+                </div>
+                {/* <button
                   type="button"
                   onClick={handleAddToReadingList}
                   className="px-6 py-3 text-base font-medium text-white rounded-full bg-primary"
                 >
                   Update Book
-                </button>
+                </button> */}
                 <button
                   type="button"
                   disabled={isLoading || isSuccess}

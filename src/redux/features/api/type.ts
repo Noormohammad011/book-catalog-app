@@ -40,7 +40,7 @@ export interface IBook {
   author?: string;
   title: string;
   genre: string;
-  publicationDate: Date;
+  publicationDate: Date | null;
 }
 
 
