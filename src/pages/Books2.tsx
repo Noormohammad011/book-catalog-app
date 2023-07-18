@@ -12,7 +12,8 @@ import BookCard from '../components/shared/BookCard';
 import CustomDateRangePicker from '../components/shared/DatePicker';
 import Pagination from '../components/shared/Pagination';
 import { useGetAllBooksQuery } from '../redux/features/books/bookApi';
-import { IBook } from '../types/globalTypes';
+import { IBook, genreOptions } from '../types/globalTypes';
+import moment from 'moment';
 
 const sortOptions = [
   { name: 'Any Time', href: '/', current: true },
@@ -29,28 +30,45 @@ const filters = [
   {
     id: 'genre',
     name: 'Genre',
-    options: [
-      { value: 'Mystery', label: 'Mystery', checked: false },
-      { value: 'Horror', label: 'Horror', checked: false },
-      { value: 'Fantasy', label: 'Fantasy', checked: true },
-      { value: 'Science Fiction', label: 'Science Fiction', checked: false },
-      { value: 'Romance', label: 'Romance', checked: false },
-      {
-        value: 'Historical Fiction',
-        label: 'Historical Fiction',
-        checked: false,
-      },
-    ],
+    options: genreOptions.map((genre) => ({
+      value: genre,
+      label: genre,
+      checked: false,
+    })),
   },
 ];
+
+
+
+
+
+
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Books() {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [fromDate, setFromDate] = useState<Date | null>(null);
+  const [toDate, setToDate] = useState<Date | null>(null);
+
+  // Convert Date objects to formatted strings
+  const formattedFromDate = fromDate
+    ? moment(fromDate).format('MM/DD/YYYY')
+    : undefined;
+  const formattedToDate = toDate
+    ? moment(toDate).format('MM/DD/YYYY')
+    : undefined;
+
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
-  const { data: books, isLoading } = useGetAllBooksQuery({});
+  const { data: books, isLoading } = useGetAllBooksQuery({
+    searchTerm,
+    fromDate: formattedFromDate,
+    toDate: formattedToDate,
+  });
+
+  console.log(books);
 
   return (
     <div className="bg-[#F3F4F6]">
@@ -252,7 +270,10 @@ export default function Books() {
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 {/* search by genre and author */}
-                <FilterBooks />
+                <FilterBooks
+                  searchTerm={searchTerm}
+                  setSearchTerm={setSearchTerm}
+                />
                 {/* =============================================================================== */}
                 {/* =============================================================================== */}
                 <ul
@@ -328,14 +349,20 @@ export default function Books() {
                 {/* =============================================================================== */}
                 <div className="mt-5">
                   <h4 className="font-medium">Publication Date: </h4>
-                  <CustomDateRangePicker />
+                  <CustomDateRangePicker
+                    fromDate={fromDate}
+                    setFromDate={setFromDate}
+                    toDate={toDate}
+                    setToDate={setToDate}
+                  />
                 </div>
               </form>
               {/* =============================================================================== */}
               {/* =============================================================================== */}
               {/* Product grid */}
               <div className="lg:col-span-3">
-                {isLoading ? (
+                {JSON.stringify(books?.data)}
+                {/* {isLoading ? (
                   'Loading'
                 ) : (
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-8">
@@ -359,7 +386,7 @@ export default function Books() {
                       )
                     )}
                   </div>
-                )}
+                )} */}
                 <div>
                   <Pagination />
                 </div>

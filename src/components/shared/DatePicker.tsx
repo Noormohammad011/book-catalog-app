@@ -1,41 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import moment from 'moment';
 
-const CustomDateRangePicker: React.FC = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
-
+const CustomDateRangePicker: React.FC<{
+  fromDate: Date | null;
+  setFromDate: (date: Date | null) => void;
+  toDate: Date | null;
+  setToDate: (date: Date | null) => void;
+}> = ({ fromDate, setFromDate, toDate, setToDate }) => {
   const handleStartDateChange = (date: Date | null) => {
-    setStartDate(date);
+    const formattedDate = date ? moment(date).format('MM/DD/YYYY') : null;
+    setFromDate(formattedDate ? new Date(formattedDate) : null);
   };
 
   const handleEndDateChange = (date: Date | null) => {
-    setEndDate(date);
+    const formattedDate = date ? moment(date).format('MM/DD/YYYY') : null;
+    setToDate(formattedDate ? new Date(formattedDate) : null);
   };
 
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h4 className=" text-gray-300">Start Date:</h4>
+        <h4 className="text-gray-300">Start Date:</h4>
         <DatePicker
-          selected={startDate}
+          selected={fromDate ? new Date(fromDate) : null}
           onChange={handleStartDateChange}
           selectsStart
-          startDate={startDate}
-          endDate={endDate}
-          placeholderText="Start Date"
+          startDate={fromDate ? new Date(fromDate) : null}
+          endDate={toDate ? new Date(toDate) : null}
+          placeholderText={moment().format('MM/DD/YYYY')}
         />
       </div>
       <div>
-        <h4 className=" text-gray-300">End Date:</h4>
+        <h4 className="text-gray-300">End Date:</h4>
         <DatePicker
-          selected={endDate}
+          selected={toDate ? new Date(toDate) : null}
           onChange={handleEndDateChange}
           selectsEnd
-          startDate={startDate}
-          endDate={endDate}
-          placeholderText="End Date"
+          startDate={fromDate ? new Date(fromDate) : null}
+          endDate={toDate ? new Date(toDate) : null}
+          placeholderText={moment().format('MM/DD/YYYY')}
         />
       </div>
     </div>
