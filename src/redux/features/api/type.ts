@@ -37,6 +37,8 @@ export interface ILogin {
 
 
 export interface IBook {
+  _id?: string;
+  image?: string;
   author?: string;
   title: string;
   genre: string;
