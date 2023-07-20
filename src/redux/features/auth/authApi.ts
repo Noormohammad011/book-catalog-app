@@ -60,13 +60,15 @@ const authApi = apiSlice.injectEndpoints({
       providesTags: ['User'],
     }),
     createWishList: builder.mutation({
-      query: (bookId: string) => ({
+      query: ({ bookId }: { bookId: string }) => ({
         url: `auth/wishlist`,
         method: 'POST',
         headers: {
           Authorization: `${localStorage.getItem('accessToken')}`,
         },
-        body: bookId,
+        body: {
+          bookId,
+        },
       }),
       invalidatesTags: [
         { type: 'Book', id: 'ALL' },
@@ -88,7 +90,7 @@ const authApi = apiSlice.injectEndpoints({
     }),
     createReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({
-        url: `auth/readinglist`,
+        url: `auth/reading-list`,
         method: 'POST',
         headers: {
           Authorization: `${localStorage.getItem('accessToken')}`,
@@ -105,7 +107,7 @@ const authApi = apiSlice.injectEndpoints({
     }),
     updateReadingList: builder.mutation({
       query: ({ bookId, status }: { bookId: string; status: string }) => ({
-        url: `auth/readinglist`,
+        url: `auth/reading-list`,
         method: 'PATCH',
         headers: {
           Authorization: `${localStorage.getItem('accessToken')}`,

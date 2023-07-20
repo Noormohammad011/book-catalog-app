@@ -14,7 +14,7 @@ const BookDetails = () => {
       <div>
         <div></div>
         <div>
-          <DetailsBook />
+          <DetailsBook bookId={id!} />
           <CommentBox bookId={id!} />
         </div>
       </div>

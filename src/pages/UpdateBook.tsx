@@ -19,7 +19,7 @@ const updateBookZodSchema: ZodType<IBook> = z.object({
   title: z.string().min(3, { message: 'Title must be at least 3 characters' }),
   genre: z
     .string()
-    .min(3, { message: 'Genre must be at least 3 characters' })
+    .min(5, { message: 'Genre must be at least 5 characters' })
     .refine((value) => genreOptions.includes(value), {
       message: 'Invalid genre option',
     }),
