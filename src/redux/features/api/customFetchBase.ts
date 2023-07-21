@@ -11,17 +11,16 @@ const baseUrl = 'https://book-catalog-backend-lac.vercel.app/api/v1/';
 // const baseUrl = 'http://localhost:5000/api/v1/';
 
 
-// Create a new mutex
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
 });
 
-// Define the type for the server response
+
 interface RefreshResponse {
   accessToken: string;
-  // Add other properties if present in the actual response
+
 }
 
 const customFetchBase: BaseQueryFn<
@@ -33,10 +32,13 @@ const customFetchBase: BaseQueryFn<
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
 
-  if (result.error) {
-    const responseStatus = result.error.status;
-    if (responseStatus === 401) {
-      // Unauthorized (Not logged in)
+
+  if (!(result?.data as any)?.success) {
+    const responseMessage = (result?.data as any)?.message;
+    if (
+      responseMessage &&
+      responseMessage.toLowerCase().includes('jwt expired')
+    ) {
       if (!mutex.isLocked()) {
         const release = await mutex.acquire();
 
@@ -52,23 +54,19 @@ const customFetchBase: BaseQueryFn<
             refreshResult.data &&
             (refreshResult.data as RefreshResponse).accessToken
           ) {
-            // Save the refreshed accessToken to localStorage
             localStorage.setItem(
               'accessToken',
               (refreshResult.data as RefreshResponse).accessToken
             );
-            // Retry the initial query
             result = await baseQuery(args, api, extraOptions);
           } else {
             api.dispatch(userLoggedOut());
             window.location.href = '/login';
           }
         } finally {
-          // release must be called once the mutex should be released again.
           release();
         }
       } else {
-        // wait until the mutex is available without locking it
         await mutex.waitForUnlock();
         result = await baseQuery(args, api, extraOptions);
       }

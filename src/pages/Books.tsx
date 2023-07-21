@@ -1,5 +1,5 @@
 import { Transition, Listbox } from '@headlessui/react';
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import FilterBooks from '../components/screen/FilterBooks';
 import BookCard from '../components/shared/BookCard';
 import CustomDateRangePicker from '../components/shared/DatePicker';
@@ -29,6 +29,8 @@ export default function Books() {
   const [selectedGenre, setSelectedGenre] = useState<string | undefined>(
     undefined
   );
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
 
   // Convert Date objects to formatted strings
   const formattedFromDate = fromDate
@@ -38,12 +40,26 @@ export default function Books() {
     ? moment(toDate).format('MM/DD/YYYY')
     : undefined;
 
-  const { data: books } = useGetAllBooksQuery({
+  const { data: booksData } = useGetAllBooksQuery({
     searchTerm,
     fromDate: formattedFromDate,
     toDate: formattedToDate,
     genre: selectedGenre,
+    page: currentPage,
+    limit: 10,
   });
+
+  // Extract the books and total pages from the API response
+  const books = booksData?.data || [];
+
+  useEffect(() => {
+    // Update the total pages when the API response changes
+    setTotalPages(Math.ceil((booksData?.meta.total || 1) / 2));
+  }, [booksData]);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
 
   return (
     <div className="bg-[#F3F4F6]">
@@ -165,7 +181,7 @@ export default function Books() {
                   searchTerm={searchTerm}
                   setSearchTerm={setSearchTerm}
                 />
-           
+
                 <div className="mt-5">
                   <h4 className="font-medium">Publication Date: </h4>
                   <CustomDateRangePicker
@@ -179,9 +195,9 @@ export default function Books() {
 
               {/* Product grid */}
               <div className="lg:col-span-3">
-                {books?.data.length ? (
+                {books.length ? (
                   <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-8">
-                    {books.data.map(
+                    {books.map(
                       ({
                         _id,
                         title,
@@ -205,7 +221,11 @@ export default function Books() {
                   <p>No data is present.</p>
                 )}
                 <div>
-                  <Pagination />
+                  <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                  />
                 </div>
               </div>
             </div>
