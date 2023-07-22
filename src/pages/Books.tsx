@@ -174,7 +174,7 @@ export default function Books() {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
-              <form className="hidden lg:block">
+              <form className="lg:block">
                 <h3 className="sr-only">Categories</h3>
                 {/* search by genre and author */}
                 <FilterBooks
