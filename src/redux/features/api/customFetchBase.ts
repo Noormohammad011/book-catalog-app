@@ -10,17 +10,14 @@ import { userLoggedOut } from '../auth/authSlice';
 const baseUrl = 'https://book-catalog-backend-lac.vercel.app/api/v1/';
 // const baseUrl = 'http://localhost:5000/api/v1/';
 
-
 const mutex = new Mutex();
 
 const baseQuery = fetchBaseQuery({
   baseUrl,
 });
 
-
 interface RefreshResponse {
   accessToken: string;
-
 }
 
 const customFetchBase: BaseQueryFn<
@@ -31,7 +28,6 @@ const customFetchBase: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
   let result = await baseQuery(args, api, extraOptions);
-
 
   if (!(result?.data as any)?.success) {
     const responseMessage = (result?.data as any)?.message;

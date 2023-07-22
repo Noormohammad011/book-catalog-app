@@ -57,13 +57,13 @@ const Signup = () => {
 
   const onSubmit = (data: RegisterInput) => {
     registerUser(data);
-    navigate('/login');
   };
   if (isSuccess) {
     toast.success(data?.message, {
       autoClose: 2000,
       toastId: Math.random(),
     });
+    navigate('/login');
   }
   if (isError) {
     toast.error('invalid credentials', {

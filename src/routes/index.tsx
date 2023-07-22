@@ -9,7 +9,7 @@ import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import PrivateRoute from './PrivateRoute';
 import UpdateBook from '../pages/UpdateBook';
-
+import Profile from '../pages/Profile';
 
 const router = createBrowserRouter([
   {
@@ -54,6 +54,14 @@ const router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UpdateBook />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: '/profile',
+        element: (
+          <PrivateRoute>
+            <Profile />
           </PrivateRoute>
         ),
       },

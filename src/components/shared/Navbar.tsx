@@ -65,34 +65,10 @@ const Navbar = () => {
                   <ul className="tracking-wide font-medium lg:text-sm flex-col flex lg:flex-row gap-6 lg:gap-0">
                     <li>
                       <Link
-                        to="allbooks"
+                        to="/allbooks"
                         className="block md:px-4 transition hover:text-primary"
                       >
                         <span>All Books</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="about"
-                        className="block md:px-4 transition hover:text-primary"
-                      >
-                        <span>About</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="contact"
-                        className="block md:px-4 transition hover:text-primary"
-                      >
-                        <span>Contact us</span>
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="blog"
-                        className="block md:px-4 transition hover:text-primary"
-                      >
-                        <span>Blog</span>
                       </Link>
                     </li>
                   </ul>
@@ -101,7 +77,7 @@ const Navbar = () => {
                 {!email ? (
                   <div className="mt-12 lg:mt-0 flex space-x-4">
                     <Link
-                      to="login"
+                      to="/login"
                       className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-white before:border text-black before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
                     >
                       <span className="relative text-sm font-semibold">
@@ -109,7 +85,7 @@ const Navbar = () => {
                       </span>
                     </Link>{' '}
                     <Link
-                      to="signup"
+                      to="/signup"
                       className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-primary before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
                     >
                       <span className="relative text-sm font-semibold text-white">
@@ -129,11 +105,21 @@ const Navbar = () => {
                     </button>
                     <div>
                       <Link
-                        to="createbook"
+                        to="/createbook"
                         className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-white before:border text-black before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
                       >
                         <span className="relative text-sm font-semibold">
                           Create Book
+                        </span>
+                      </Link>
+                    </div>
+                    <div>
+                      <Link
+                        to="/profile"
+                        className="relative flex h-9 w-full items-center justify-center px-4 before:absolute before:inset-0 before:rounded-full before:bg-white before:border text-black before:transition before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95 sm:w-max"
+                      >
+                        <span className="relative text-sm font-semibold">
+                          Profile
                         </span>
                       </Link>
                     </div>
