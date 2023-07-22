@@ -106,7 +106,7 @@ const DetailsBook: React.FC<{
     }
 
     if (isError) {
-      toast.error('Something Went Wrong', {
+      toast.error('You are not aligable to delete this book', {
         autoClose: 2000,
         toastId: Math.random(),
       });
