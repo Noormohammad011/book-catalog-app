@@ -83,8 +83,7 @@ export const bookApi = apiSlice.injectEndpoints({
   }),
 });
 
-// Export hooks for usage in functional components, which are
-// auto-generated based on the defined endpoints
+
 export const {
   useGetAllBooksQuery,
   useGetBookByIdQuery,

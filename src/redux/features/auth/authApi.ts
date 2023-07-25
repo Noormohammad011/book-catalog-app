@@ -5,6 +5,7 @@ import { apiSlice } from '../api/apiSlice';
 import { IAuthResponse, IUserResponse } from '../api/type';
 import { userLoggedIn } from './authSlice';
 
+
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation<IUserResponse, RegisterInput>({
@@ -21,6 +22,7 @@ const authApi = apiSlice.injectEndpoints({
         return {
           url: 'auth/login',
           method: 'POST',
+          credentials: 'include',
           body: data,
         };
       },
@@ -42,6 +44,7 @@ const authApi = apiSlice.injectEndpoints({
             userLoggedIn({
               name: decoded.name,
               email: decoded.email,
+              accessToken: data?.data?.accessToken,
             })
           );
         } catch (err) {

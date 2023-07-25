@@ -17,6 +17,7 @@ export const store = configureStore({
     auth: {
       name: decoded ? decoded.name : null,
       email: decoded ? decoded.email : null,
+      accessToken: accessToken,
     },
   },
   middleware: (getDefaultMiddleware) =>
