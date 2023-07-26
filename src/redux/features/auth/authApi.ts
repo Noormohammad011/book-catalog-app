@@ -3,8 +3,7 @@ import { LoginInput } from '../../../pages/Login';
 import { RegisterInput } from '../../../pages/Signup';
 import { apiSlice } from '../api/apiSlice';
 import { IAuthResponse, IUserResponse } from '../api/type';
-import { userLoggedIn } from './authSlice';
-
+import { userLoggedIn, userLoggedOut } from './authSlice';
 
 const authApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -52,6 +51,24 @@ const authApi = apiSlice.injectEndpoints({
         }
       },
     }),
+
+    logOutUser: builder.mutation({
+      query: () => ({
+        url: 'auth/logout',
+        method: 'DELETE',
+        credentials: 'include',
+      }),
+      onQueryStarted(_arg, { dispatch, queryFulfilled }) {
+        try {
+          queryFulfilled.then(() => {
+            dispatch(userLoggedOut());
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    }),
+    
     userProfile: builder.query<IUserResponse, void>({
       query: () => ({
         url: 'auth/me',
@@ -159,4 +176,5 @@ export const {
   useUpdateReadingListMutation,
   useCreateReviewMutation,
   useGetReviewsByIdQuery,
+  useLogOutUserMutation,
 } = authApi;
